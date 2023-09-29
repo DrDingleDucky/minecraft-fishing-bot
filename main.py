@@ -40,34 +40,35 @@ def capture_window(window_handle):
         window_handle = win32gui.GetDesktopWindow()
 
     window_dimensions = win32gui.GetWindowRect(window_handle)
+
     left = window_dimensions[0]
     top = window_dimensions[1]
     right = window_dimensions[2]
     bottom = window_dimensions[3]
+
     left_border = 8
     right_border = 8
     top_border = 30
     bottom_border = 8
+
     width = right - left - left_border - right_border
     height = bottom - top - top_border - bottom_border
+
     x = width * 3 // 4
     y = height * 3 // 4
     width = width // 4
     height = height // 4
+
     cropped_x = x
     cropped_y = y
+
     window_device_context = win32gui.GetWindowDC(window_handle)
     device_context_object = win32ui.CreateDCFromHandle(window_device_context)
     create_device_context = device_context_object.CreateCompatibleDC()
     data_bit_map = win32ui.CreateBitmap()
     data_bit_map.CreateCompatibleBitmap(device_context_object, width, height)
     create_device_context.SelectObject(data_bit_map)
-    create_device_context.BitBlt(
-        (0, 0),
-        (width, height),
-        device_context_object,
-        (cropped_x, cropped_y),
-        win32con.SRCCOPY)
+    create_device_context.BitBlt((0, 0), (width, height), device_context_object, (cropped_x, cropped_y), win32con.SRCCOPY)
 
     image = numpy.frombuffer(data_bit_map.GetBitmapBits(True), dtype="uint8")
     image.shape = (height, width, 4)
@@ -92,16 +93,10 @@ def main():
             print("error: no windows not found")
             break
 
-        screenshot = cv2.cvtColor(capture_window(
-            get_window_handles()[0]), cv2.COLOR_BGR2GRAY)
+        screenshot = cv2.cvtColor(capture_window(get_window_handles()[0]), cv2.COLOR_BGR2GRAY)
         screenshot = capture_window(get_window_handles()[0])
         screenshot = cv2.cvtColor(screenshot, cv2.COLOR_BGR2GRAY)
-        text = pytesseract.image_to_string(cv2.threshold(
-            screenshot,
-            0,
-            255,
-            cv2.THRESH_BINARY
-            + cv2.THRESH_OTSU)[1])
+        text = pytesseract.image_to_string(cv2.threshold(screenshot, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1])
 
         if phrase in text.lower():
             print("fish on")
