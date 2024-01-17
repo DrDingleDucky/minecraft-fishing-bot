@@ -2,11 +2,7 @@
 
 A bot that can automatically fish in Minecraft.
 
-![bot_fishing.png](README.assets/bot_fishing.png)
-
-## Python Version
-
-This project was developed using Python 3.10.10.
+![bot-fishing.png](README.assets/bot-fishing.png)
 
 ## Install Tesseract
 
@@ -22,18 +18,10 @@ Install the necessary dependencies.
 pip install -r requirements.txt
 ```
 
-## How To Use
-
-Just run `main.py` and have it running in the background.
-
-## Things To Note
+## Notes
 
 Subtitles need to be turned on for it to work.
 
 It does not work in full screen.
 
 Set keyboard focus on the computer vision window and press "q" to quit.
-
-It messes up when multiple people are fishing in the same spot because it reads other subtitles.
-
-Make sure you don't have Minecraft minimised when you start the script.
