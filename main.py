@@ -8,7 +8,7 @@ import win32con
 import win32gui
 import win32ui
 
-phrase = "bobber splashes"
+phrase = "r splashes"
 pytesseract.pytesseract.tesseract_cmd = "C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
 
 
@@ -90,13 +90,22 @@ def main():
             print(f"fps: {1 / delta_time}")
 
         if len(get_window_handles()) == 0:
-            print("error: no windows not found")
+            print("error: window not found")
+            break
+
+        if not win32gui.IsWindowVisible(get_window_handles()[0]):
+            print("error: window not visible")
+            break
+
+        if win32gui.IsIconic(get_window_handles()[0]):
+            print("error: window is minimized")
             break
 
         screenshot = cv2.cvtColor(capture_window(get_window_handles()[0]), cv2.COLOR_BGR2GRAY)
         screenshot = capture_window(get_window_handles()[0])
         screenshot = cv2.cvtColor(screenshot, cv2.COLOR_BGR2GRAY)
         text = pytesseract.image_to_string(cv2.threshold(screenshot, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1])
+
 
         if phrase in text.lower():
             print("fish on")
