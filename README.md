@@ -2,7 +2,7 @@
 
 A bot that can automatically fish in Minecraft.
 
-![bot-fishing.png](README.assets/bot-fishing.png)
+![bot-fishing.gif](README.assets/bot-fishing.gif)
 
 ## Install Tesseract
 
